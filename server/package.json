@@ -1,5 +1,5 @@
 {
-	"name": "unihack",
+	"name": "unihack-server",
 	"version": "1.0.0",
 	"main": "index.js",
 	"repository": "https://github.com/harryparkdotio/Unihack.git",
@@ -22,6 +22,6 @@
 	"scripts": {
 		"build": "tsc",
 		"dev": "./node_modules/nodemon/bin/nodemon.js",
-		"test:lint": "tslint -c tslint.json 'src/**/*.ts' 'test/**/*.ts'"
+		"test:lint": "tslint -c tslint.json 'src/**/*.ts'"
 	}
 }

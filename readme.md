@@ -1,9 +1,10 @@
 # Unihack
 unihack syd 2018
 
-## setup
+## server setup
 ```
 $ npm i -g yarn
+$ cd server
 $ yarn
 ```
 
@@ -20,4 +21,22 @@ $ yarn build
 **lint**
 ```
 $ yarn test:lint
+```
+
+## client setup
+```
+$ npm i -g yarn
+$ cd client
+$ yarn
+```
+
+**dev**
+```
+$ yarn dev
+$ open 'http://localhost:8080'
+```
+
+**build**
+```
+$ yarn build
 ```
