@@ -1,5 +1,6 @@
 import * as Koa from 'koa';
 import * as Router from 'koa-router';
+const cors = require('@koa/cors');
 
 import chalk from 'chalk';
 import * as bodyParser from 'koa-bodyparser';
@@ -12,7 +13,7 @@ const router = new Router();
 import { Index } from './routes/index';
 
 router.use('', Index.routes);
-
+app.use(cors());
 app.use(async (ctx, next) => {
 	try {
 		await next();

@@ -66,7 +66,9 @@
 <style lang='scss' src='@/assets/main.scss'></style>
 
 <script>
-const au = new Audio("@/assets/He-man.mp3");
+
+import axios from 'axios';
+  const au = new Audio("@/assets/He-man.mp3");
 au.play();
 const thingos = {
   day: [
@@ -153,21 +155,33 @@ export default {
 	  arrived: false
     };
   },
+  created() {
+    axios.get("http://localhost:9000/calendar_events").then(res => {
+      console.log('res', res);
+    });
+  },
   mounted() {
+
+
+
+
+
+
     const sec = 100;
     this.dte = this.hours * 60 + this.minutes;
     setInterval(() => {
 	  this.dte -= 1; //new Date(this.dte.setMinutes(this.dte.getMinutes() - 1));
 	//   if (this.dte === 0 && this.action_idx === all_actions.length) {
 	// 	  this.arrived = true;
-	//   }
+    //   }
       if (this.dte === 0) {
-		action_idx += 1;
-		this.current_action = all_actions[action_idx];
-		this.dte = all_durations[action_idx];
-		this.hours = secToHours(all_durations[action_idx]);
-		this.minutes = secToMins(all_durations[action_idx]);
-	  }
+        action_idx += 1;
+        this.action_idx += 1;
+        this.current_action = all_actions[action_idx];
+        this.dte = all_durations[action_idx];
+        this.hours = secToHours(all_durations[action_idx]);
+        this.minutes = secToMins(all_durations[action_idx]);
+      }
       this.hours = secToHours(this.dte); //this.dte.getMinutes();
       this.minutes = secToMins(this.dte); //this.dte.getHours();
     }, sec);

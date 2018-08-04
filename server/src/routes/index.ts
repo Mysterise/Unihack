@@ -3,6 +3,7 @@ import * as Router from 'koa-router';
 import * as MapsController from '../controllers/maps';
 
 import { IMapsBody } from '../interfaces';
+import { CalendarAPI } from "./calendar";
 
 const router = new Router();
 
@@ -12,12 +13,19 @@ router.get('/', (ctx, next) => {
 	};
 });
 
-router.get('calendar_events', (ctx, next) => {
-	// getCalendarEvents()
+router.get('/calendar_events', async (ctx, next) => {
+    const api = new CalendarAPI();
 
-	ctx.body = {
-		success: true
-	}
+    const nextEvent = await new Promise((resolve) => {
+        api.getCalendarEvent((nextEvent) => {
+            resolve(nextEvent);
+        });
+    });
+
+    ctx.body = {
+        nextEvent
+    }
+
 });
 
 router.post('/maps-props', async (ctx, next) => {
