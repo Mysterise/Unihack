@@ -2,6 +2,8 @@ import * as Router from 'koa-router';
 
 import * as MapsController from '../controllers/maps';
 
+import * as fs from 'fs';
+
 const router = new Router();
 
 router.get('/', (ctx, next) => {
@@ -19,12 +21,14 @@ router.get('calendar_events', (ctx, next) => {
 
 router.get('/maps-props', async (ctx, next) => {
 	const directionData: any = await MapsController.getDirectionProperty(
-		'7 Kelly Street, Ultimo NSW',
-		'77 Anzac Parade, Kensington NSW 2033',
-		MapsController.TravelTypes.driving
+		'UNSW Sydney',
+		'Melbourne VIC',
+		MapsController.TravelTypes.transit
 	);
 
-	ctx.body = directionData.routes;//.duration.text; //[0].bounds
+	fs.writeFileSync('lol.json', JSON.stringify(directionData));
+
+	ctx.body = directionData.routes[0].legs[0].duration.value;//.duration.text; //[0].bounds
 });
 
 export namespace Index {

@@ -9,7 +9,7 @@ export enum TravelTypes {
 
 export async function getDirectionProperty(origin: string, destination: string, travelMode: TravelTypes): Promise<object> {
 	const res = await axios.get('https://maps.googleapis.com/maps/api/directions/json', {
-		params: {
+		data: {
 			origin,
 			destination,
 			travelMode,
@@ -17,5 +17,11 @@ export async function getDirectionProperty(origin: string, destination: string, 
 		}
 	});
 
+	console.log(res.request);
+
 	return res.data;
+}
+
+export function minsToNum(mins: string) {
+	return parseInt(mins.split(" ")[0]);
 }
