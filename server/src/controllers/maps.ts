@@ -8,7 +8,9 @@ export enum TravelTypes {
 }
 
 export async function getDirectionProperty(origin: string, destination: string, travelMode: TravelTypes): Promise<object> {
-	const res = await axios.get('https://maps.googleapis.com/maps/api/directions/json', {
+    console.log('req');
+
+    const res = await axios.get('https://maps.googleapis.com/maps/api/directions/json', {
 		data: {
 			origin,
 			destination,
@@ -17,10 +19,9 @@ export async function getDirectionProperty(origin: string, destination: string, 
 		}
 	});
 
+	console.log('req', res.request);
 
-	console.log(res.request);
-
-	return res.data;
+	return res.data.routes[0].legs[0].duration.value;
 }
 
 /*

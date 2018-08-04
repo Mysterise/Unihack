@@ -14,6 +14,7 @@ import { Index } from './routes/index';
 
 router.use('', Index.routes);
 app.use(cors());
+app.use(bodyParser());
 app.use(async (ctx, next) => {
 	try {
 		await next();

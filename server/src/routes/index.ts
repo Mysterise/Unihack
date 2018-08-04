@@ -29,14 +29,18 @@ router.get('/calendar_events', async (ctx, next) => {
 });
 
 router.post('/maps-props', async (ctx, next) => {
-	const data: IMapsBody = ctx.body;
+	console.log('map props');
+	const data: IMapsBody = ctx.request.body;
+
 	const directionData: any = await MapsController.getDirectionProperty(
 		data.origin,
 		data.destination,
 		MapsController.TravelTypes[data.travelMode]
 	);
 
-	ctx.body = directionData.routes[0].legs[0].duration.value;//.duration.text; //[0].bounds
+	ctx.body = {
+		seconds: directionData,
+	};
 });
 
 export namespace Index {
