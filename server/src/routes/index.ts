@@ -2,7 +2,7 @@ import * as Router from 'koa-router';
 
 import * as MapsController from '../controllers/maps';
 
-import * as fs from 'fs';
+import { IMapsBody } from '../interfaces';
 
 const router = new Router();
 
@@ -13,20 +13,20 @@ router.get('/', (ctx, next) => {
 });
 
 router.get('calendar_events', (ctx, next) => {
-	// getCalendarEvents();
+	// getCalendarEvents()
+
 	ctx.body = {
 		success: true
 	}
 });
 
-router.get('/maps-props', async (ctx, next) => {
+router.post('/maps-props', async (ctx, next) => {
+	const data: IMapsBody = ctx.body;
 	const directionData: any = await MapsController.getDirectionProperty(
-		'UNSW Sydney',
-		'Melbourne VIC',
-		MapsController.TravelTypes.transit
+		data.origin,
+		data.destination,
+		MapsController.TravelTypes[data.travelMode]
 	);
-
-	fs.writeFileSync('lol.json', JSON.stringify(directionData));
 
 	ctx.body = directionData.routes[0].legs[0].duration.value;//.duration.text; //[0].bounds
 });

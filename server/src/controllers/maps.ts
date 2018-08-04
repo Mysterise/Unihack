@@ -17,11 +17,14 @@ export async function getDirectionProperty(origin: string, destination: string, 
 		}
 	});
 
+
 	console.log(res.request);
 
 	return res.data;
 }
 
+/*
 export function minsToNum(mins: string) {
 	return parseInt(mins.split(" ")[0]);
 }
+*/
