@@ -19,12 +19,12 @@ router.get('calendar_events', (ctx, next) => {
 
 router.get('/maps-props', async (ctx, next) => {
 	const directionData: any = await MapsController.getDirectionProperty(
-		'Universal studios hollywood',
-		'empire state building',
+		'7 Kelly Street, Ultimo NSW',
+		'77 Anzac Parade, Kensington NSW 2033',
 		MapsController.TravelTypes.driving
 	);
 
-	ctx.body = directionData.routes[0].bounds;
+	ctx.body = directionData.routes;//.duration.text; //[0].bounds
 });
 
 export namespace Index {
