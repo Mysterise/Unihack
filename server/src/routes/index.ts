@@ -8,6 +8,13 @@ router.get('/', (ctx, next) => {
 	};
 });
 
+router.get('calendar_events', (ctx, next) => {
+	getCalendarEvents();
+	ctx.body = {
+		success: true
+	}
+})
+
 export namespace Index {
 	export const routes = router.routes();
 }
