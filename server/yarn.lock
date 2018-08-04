@@ -8,6 +8,12 @@
   dependencies:
     "@types/node" "*"
 
+"@types/axios@^0.14.0":
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/@types/axios/-/axios-0.14.0.tgz#ec2300fbe7d7dddd7eb9d3abf87999964cafce46"
+  dependencies:
+    axios "*"
+
 "@types/body-parser@*":
   version "1.17.0"
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.17.0.tgz#9f5c9d9bd04bb54be32d5eb9fc0d8c974e6cf58c"
@@ -199,6 +205,13 @@ async-each@^1.0.0:
 atob@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.1.tgz#ae2d5a729477f289d60dd7f96a6314a22dd6c22a"
+
+axios@*:
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.18.0.tgz#32d53e4851efdc0a11993b6cd000789d70c05102"
+  dependencies:
+    follow-redirects "^1.3.0"
+    is-buffer "^1.1.5"
 
 babel-code-frame@^6.22.0:
   version "6.26.0"
@@ -638,6 +651,12 @@ fill-range@^4.0.0:
     is-number "^3.0.0"
     repeat-string "^1.6.1"
     to-regex-range "^2.1.0"
+
+follow-redirects@^1.3.0:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.5.2.tgz#5a9d80e0165957e5ef0c1210678fc5c4acb9fb03"
+  dependencies:
+    debug "^3.1.0"
 
 for-in@^1.0.2:
   version "1.0.2"
