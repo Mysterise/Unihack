@@ -1,0 +1,19 @@
+{
+	"defaultSeverity": "error",
+	"extends": [
+		"tslint:recommended"
+	],
+	"jsRules": {},
+	"rules": {
+		"arrow-parens": [true, "ban-single-arg-parens"],
+		"indent": [true, "tabs", 4],
+		"no-console": [false, "log"],
+		"no-namespace": false,
+		"max-line-length": [false],
+		"object-literal-sort-keys": false,
+		"only-arrow-functions": false,
+		"quotemark": [true, "single"],
+		"trailing-comma": [true, {"multiline": "never", "singleline": "never"}]
+	},
+	"rulesDirectory": []
+}
