@@ -1,6 +1,10 @@
 <template>
-	<div class='landing'>
-		<div v-if='!settingsPage'>
+	<div class='landing' v-on:click="show = !show">
+		<!-- <div v-if='!settingsPage'> -->
+		<transition name="fade">
+			<div v-if="show">
+
+		<div :class="left_class">
 			<div class="main">
 				<div class="svg-action">
 					<!-- <img :src="'../assets/' + svg_selected + '.svg'" class="svg-action"/> -->
@@ -30,46 +34,59 @@
 				</div>
 			</div>
 		</div>
-		<div v-if='settingsPage'>
-			<div class='next-event'>
-				<div class='event-time'>
-					9:00 am
-				</div>
-				<div class='event-title'>
-					Unihack
-				</div>
-			</div>
 
-			<div class='landing-prompt'>
-				I'm going to<br>have a <div v-if='typeOfDay'><span class="type-of-day">{{ typeOfDay }}</span></div><div v-if='!typeOfDay'><span class="type-of-day-placeholder">____</span> day tomorrow</div>
-				<div v-if='currentAction === "time" || currentAction === "travel" || currentAction === "done"'>day tomorrow starting at <span class="starting-time">{{ startingTime }}</span></div>
-				<div v-if='currentAction === "travel" || currentAction === "done"'>and I'll be getting there by <span class="travel-method">{{ travelMethod }}</span></div>
-			</div>
-
-			<div class='landing-buttons'>
-				<div v-if='currentAction === "day"'>
-					<button v-for='thingo in thingos.day' @click.prevent='setTypeOfDay(thingo.name)'>{{thingo.text}}</button>
-				</div>
-
-				<div v-if='currentAction === "time"'>
-					<button v-for='thingo in thingos.time' @click.prevent='setTimeToBeThereBy(thingo.name)'>{{thingo.text}}</button>
-				</div>
-
-				<div v-if='currentAction === "travel"'>
-					<button v-for='thingo in thingos.travel' @click.prevent='setTravelMethod(thingo.name)'>{{thingo.text}}</button>
-				</div>
-			</div>
 		</div>
+			</transition>
+
+		<transition name="fade">
+			<div v-if="!show">
+			<!-- </div> -->
+			<!-- <div v-if='settingsPage'> -->
+			<div :class="right_class">
+				<div class='next-event'>
+					<div class='event-time'>
+						9:00 am
+					</div>
+					<div class='event-title'>
+						Unihack
+					</div>
+				</div>
+
+				<div class='landing-prompt'>
+					I'm going to<br>have a <div v-if='typeOfDay'><span class="type-of-day">{{ typeOfDay }}</span></div><div v-if='!typeOfDay'><span class="type-of-day-placeholder">____</span> day tomorrow</div>
+					<div v-if='currentAction === "time" || currentAction === "travel" || currentAction === "done"'>day tomorrow starting at <span class="starting-time">{{ startingTime }}</span></div>
+					<div v-if='currentAction === "travel" || currentAction === "done"'>and I'll be getting there by <span class="travel-method">{{ travelMethod }}</span></div>
+				</div>
+
+				<div class='landing-buttons'>
+					<div v-if='currentAction === "day"'>
+						<button v-for='thingo in thingos.day' @click.prevent='setTypeOfDay(thingo.name)'>{{thingo.text}}</button>
+					</div>
+
+					<div v-if='currentAction === "time"'>
+						<button v-for='thingo in thingos.time' @click.prevent='setTimeToBeThereBy(thingo.name)'>{{thingo.text}}</button>
+					</div>
+
+					<div v-if='currentAction === "travel"'>
+						<button v-for='thingo in thingos.travel' @click.prevent='setTravelMethod(thingo.name)'>{{thingo.text}}</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+			</transition>
 	</div>
 </template>
 
 <style lang='scss' src='@/assets/main.scss'></style>
 
 <script>
+import axios from "axios";
 
-import axios from 'axios';
-  const au = new Audio("@/assets/He-man.mp3");
-au.play();
+window.au = new Audio(
+  "https://www.dropbox.com/s/4txivnsjosx85k6/he-man.mp3?dl=1"
+);
+
 const thingos = {
   day: [
     {
@@ -133,11 +150,11 @@ const all_durations = [12, 15, 15, 15];
 let action_idx = 0;
 
 function secToMins(secs) {
-	  return secs - secToHours(secs) * 60;
-  }
-  function secToHours(secs) {
-	  return Math.floor(secs / 60);
-  }
+  return secs - secToHours(secs) * 60;
+}
+function secToHours(secs) {
+  return Math.floor(secs / 60);
+}
 export default {
   data() {
     return {
@@ -148,34 +165,39 @@ export default {
       travelMethod: "",
       settingsPage: false,
       hours: secToHours(all_durations[0]),
-	  minutes: secToMins(all_durations[0]),
-	  action_idx: 0,
+      minutes: secToMins(all_durations[0]),
+      action_idx: 0,
       dte: 0,
-	  current_action: all_actions[0],
-	  arrived: false
+      current_action: all_actions[0],
+      arrived: false,
+      left_class: "left-on",
+      right_class: "right",
+      show: true
     };
   },
   created() {
     axios.get("http://localhost:9000/calendar_events").then(res => {
-      console.log('res', res.data.nextEvent);
+      console.log("res", res.data.nextEvent);
       const event1 = res.data.nextEvent;
-      axios.post("http://localhost:9000/maps-props", {
-        origin: '100 Market St, Sydney NSW 2000',
-        destination: event.location,
-        travelMode: 'DRIVING'
-      }).then(res => {
-        console.log('res2', res);
-      })
+      axios
+        .post("http://localhost:9000/maps-props", {
+          origin: "100 Market St, Sydney NSW 2000",
+          destination: event.location,
+          travelMode: "DRIVING"
+        })
+        .then(res => {
+          console.log("res2", res);
+        });
     });
   },
   mounted() {
     const sec = 100;
     this.dte = this.hours * 60 + this.minutes;
     setInterval(() => {
-	  this.dte -= 1; //new Date(this.dte.setMinutes(this.dte.getMinutes() - 1));
-	//   if (this.dte === 0 && this.action_idx === all_actions.length) {
-	// 	  this.arrived = true;
-    //   }
+      this.dte -= 1; //new Date(this.dte.setMinutes(this.dte.getMinutes() - 1));
+      //   if (this.dte === 0 && this.action_idx === all_actions.length) {
+      // 	  this.arrived = true;
+      //   }
       if (this.dte === 0) {
         action_idx += 1;
         this.action_idx += 1;
