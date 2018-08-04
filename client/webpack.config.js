@@ -4,8 +4,10 @@ const pkg = require('./package.json');
 const isProd = process.env.NODE_ENV === 'production';
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const OfflinePlugin = require('offline-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 
-module.exports = {
+const config = {
 	mode: isProd ? 'production' : 'development',
 	entry: {
 		app: './src/index.tsx'
@@ -48,5 +50,20 @@ module.exports = {
 				useShortDoctype: true
 			}
 		}),
+		new WebpackPwaManifest({
+			name: pkg.name,
+			short_name: pkg.name,
+			description: pkg.description,
+			background_color: '#000000',
+			inject: true,
+			ios: true,
+			filename: 'manifest.json'
+		})
 	]
 }
+
+// if (isProd) {
+// 	config.plugins.push(new OfflinePlugin());
+// }
+
+module.exports = config;
