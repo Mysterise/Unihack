@@ -1,4 +1,6 @@
 import * as Router from 'koa-router';
+import {CalendarAPI} from './calendar';
+
 
 const router = new Router();
 
@@ -8,10 +10,11 @@ router.get('/', (ctx, next) => {
 	};
 });
 
-router.get('calendar_events', (ctx, next) => {
-	getCalendarEvents();
+router.get('/calendar_events', (ctx, next) => {
+	let cal = new CalendarAPI().getCalendarEvent();
 	ctx.body = {
-		success: true
+		success: true,
+		data: cal.nextEvent
 	}
 })
 
