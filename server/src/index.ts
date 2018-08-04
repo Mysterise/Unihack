@@ -15,6 +15,7 @@ import { Index } from './routes/index';
 router.use('', Index.routes);
 app.use(cors());
 app.use(bodyParser());
+
 app.use(async (ctx, next) => {
 	try {
 		await next();
@@ -23,7 +24,8 @@ app.use(async (ctx, next) => {
 			ctx.throw(404);
 		}
 	} catch (err) {
-		ctx.status = err.status;
+		ctx.status = err.status || 500;
+
 		ctx.body = {
 			error: true,
 			status_code: ctx.status,

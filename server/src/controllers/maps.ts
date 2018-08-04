@@ -1,26 +1,26 @@
 import axios from 'axios';
 
 export enum TravelTypes {
-	bicycling = 'BICYCLING',
-	driving = 'DRIVING',
-	transit = 'TRANSIT',
-	walking = 'WALKING'
+	bicycling = 'bicycling',
+	driving = 'driving',
+	transit = 'transit',
+	walking = 'walking'
 }
 
-export async function getDirectionProperty(origin: string, destination: string, travelMode: TravelTypes): Promise<object> {
-    console.log('req');
+export async function getDirectionProperty(origin: string, destination: string, mode: string): Promise<object> {
 
+    console.log('Getting Distance');
     const res = await axios.get('https://maps.googleapis.com/maps/api/directions/json', {
-		data: {
+		params: {
 			origin,
 			destination,
-			travelMode,
+			mode,
 			key: 'AIzaSyBHHQTbMzr6lE-HzgZeRzzWo96A4XSps2Q'
 		}
 	});
 
-	console.log('req', res.request);
-
+    console.log('test');
+    console.log(res.request);
 	return res.data.routes[0].legs[0].duration.value;
 }
 

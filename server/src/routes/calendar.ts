@@ -128,7 +128,7 @@ export  class CalendarAPI {
                     //   eventsSummary += `${start} - ${event.summary}\n`;
                     // });
                     console.log(events.length);
-                    console.log(events);
+                    // console.log(events);
                     // this.status = eventsSummary;
                     this.nextEvent = {
                         title: events[0].summary,
