@@ -169,12 +169,6 @@ export default {
     });
   },
   mounted() {
-
-
-
-
-
-
     const sec = 100;
     this.dte = this.hours * 60 + this.minutes;
     setInterval(() => {
