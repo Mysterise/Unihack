@@ -177,17 +177,15 @@ export default {
   },
   created() {
     axios.get("http://localhost:9000/calendar_events").then(res => {
-      console.log("res", res.data.nextEvent);
-      const event1 = res.data.nextEvent;
-      axios
-        .post("http://localhost:9000/maps-props", {
-          origin: "100 Market St, Sydney NSW 2000",
-          destination: event.location,
-          travelMode: "DRIVING"
-        })
-        .then(res => {
-          console.log("res2", res);
-        });
+      console.log('res', res.data.nextEvent);
+      const event = res.data.nextEvent;
+      axios.post("http://localhost:9000/maps-props", {
+        origin: '100 Market St, Sydney NSW 2000',
+        destination: event.location,
+        mode: 'walking'
+      }).then(res => {
+        console.log('res2', res);
+      })
     });
   },
   mounted() {

@@ -31,11 +31,11 @@ router.get('/calendar_events', async (ctx, next) => {
 router.post('/maps-props', async (ctx, next) => {
 	console.log('map props');
 	const data: IMapsBody = ctx.request.body;
-
+	console.log(ctx.request.body);
 	const directionData: any = await MapsController.getDirectionProperty(
 		data.origin,
 		data.destination,
-		MapsController.TravelTypes[data.travelMode]
+		data.mode,
 	);
 
 	ctx.body = {

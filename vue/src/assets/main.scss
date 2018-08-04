@@ -77,3 +77,30 @@ button {
 .countdown-timer {
 	font-size: 50pt;
 }
+
+.fade-enter-active, .fade-leave-active {
+	transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+	opacity: 0;
+  }
+
+.right {
+}
+// .left {
+//     position: absolute;
+//     left: -100px;
+//     width: 100px;
+//     height: 100px;
+//     background: blue;
+//     transition: 1s;
+// }
+// .left-on {
+//     position: absolute;
+//     left: -100px;
+//     width: 100px;
+//     height: 100px;
+//     background: blue;
+//     transition: 1s;
+//     left: 0;
+// }
