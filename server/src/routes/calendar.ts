@@ -24,12 +24,14 @@ export  class CalendarAPI {
     this.nextEvent = null;
   }
 
-  getCalendarEvent() {
+  getCalendarEvent(callback) {
     // Load client secrets from a local file.
     fs.readFile("./credentials.json", (err, content) => {
       if (err) return console.log("Error loading client secret file:", err);
       // Authorize a client with credentials, then call the Google Calendar API.
-      this.authorize(JSON.parse(content), this.listEvents);
+      this.authorize(JSON.parse(content), (token) => {
+          this.listEvents(token, callback)
+      });
     });
   }
 
@@ -100,7 +102,7 @@ export  class CalendarAPI {
    * Lists the next 10 events on the user's primary calendar.
    * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
    */
-  listEvents (auth)  {
+  listEvents (auth, callback)  {
     const calendar = google.calendar({ version: "v3", auth });
     let ctx = this;
     calendar.events.list(
@@ -134,6 +136,7 @@ export  class CalendarAPI {
             end: events[0].end.dateTime,
             location: events[0].location
           };
+          callback(this.nextEvent);
         } else {
           this.status = "No upcoming events found.";
         }

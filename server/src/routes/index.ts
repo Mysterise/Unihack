@@ -10,13 +10,20 @@ router.get('/', (ctx, next) => {
 	};
 });
 
-router.get('/calendar_events', (ctx, next) => {
-	let cal = new CalendarAPI().getCalendarEvent();
-	ctx.body = {
-		success: true,
-		data: cal.nextEvent
+router.get('/calendar_events', async (ctx, next) => {
+    const api = new CalendarAPI();
+
+    const nextEvent = await new Promise((resolve) => {
+        api.getCalendarEvent((nextEvent) => {
+            resolve(nextEvent);
+        });
+	});
+
+    ctx.body = {
+    	nextEvent
 	}
-})
+
+});
 
 export namespace Index {
 	export const routes = router.routes();
