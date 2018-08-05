@@ -1,8 +1,8 @@
 <template>
 	<div class='landing'>
-		<div v-if='!settingsPage'>
+    <div v-if='!settingsPage'>
 			<div class="main">
-				<div class="svg-action">
+        <div class="svg-action">
 					<!-- <img :src="'../assets/' + svg_selected + '.svg'" class="svg-action"/> -->
 					<div v-if='action_idx === 0'>
 						<img src="../assets/moon.svg" class="svg-action"/>
@@ -28,7 +28,10 @@
 						{{ current_action }}
 					</div>
 				</div>
-			</div>
+        <Calendar :event="event" />
+
+
+      </div>
 		</div>
 		<div v-if='settingsPage'>
 			<div class='next-event'>
@@ -60,7 +63,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+  </div>
 </template>
 
 <style lang='scss' src='@/assets/main.scss'></style>
@@ -69,6 +72,7 @@
 
 import axios from 'axios';
   const au = new Audio("@/assets/He-man.mp3");
+  import Calendar from '@/components/Calendar';
 au.play();
 const thingos = {
   day: [
@@ -139,9 +143,13 @@ function secToMins(secs) {
 	  return Math.floor(secs / 60);
   }
 export default {
+  components: {
+    Calendar
+  },
   data() {
     return {
       thingos,
+      event: {},
       currentAction: "day",
       typeOfDay: "",
       startingTime: "",
@@ -159,6 +167,8 @@ export default {
     axios.get("http://localhost:9000/calendar_events").then(res => {
       console.log('res', res.data.nextEvent);
       const event = res.data.nextEvent;
+      this.event = event;
+
       axios.post("http://localhost:9000/maps-props", {
         origin: '100 Market St, Sydney NSW 2000',
         destination: event.location,

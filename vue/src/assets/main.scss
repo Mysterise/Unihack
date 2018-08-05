@@ -1,8 +1,9 @@
 @import 'reset';
 
 html {
-	max-height: 100vh;
+	min-height: 100vh;
 	font-family: sans-serif;
+  background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
 }
 
 .landing {
@@ -71,9 +72,34 @@ button {
 	align-items:center;
 	justify-content: center;
 	height:100vh;
-	background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
 }
 
 .countdown-timer {
 	font-size: 50pt;
+}
+
+.calendar-event {
+  margin: 1rem;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  color: #444444;
+  padding: 1rem;
+  width: 25rem;
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.09);
+ .title {
+    font-size: 1.1rem;
+   line-height: 1.5rem;
+  }
+  .start {
+    font-size: 0.75rem;
+    color: #666666;
+    line-height: 1rem;
+  }
+  .location {
+    font-size: 0.9rem;
+    padding-top: 1rem;
+    color: #999999;
+    line-height: 1.2rem;
+  }
 }
