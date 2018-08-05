@@ -93,6 +93,7 @@ button {
 
 .stop-button button {
 	border: 3px white solid;
+  background-color: #EF7564;
     color: white;
     box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.15);
     position: absolute;
@@ -114,7 +115,7 @@ button {
   }
 
 .right {
-	height: 100vh;
+	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -172,6 +173,13 @@ button {
   padding: 1rem;
   width: 25rem;
   box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.09);
+
+  .dots {
+    font-size: 2.5rem;
+    color: #eeeeee;
+    max-width: 100%;
+    overflow: hidden;
+  }
 
   .inner {
     display: flex;

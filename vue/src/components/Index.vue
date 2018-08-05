@@ -39,7 +39,7 @@
 						</div>
 
 						<div v-if='action_idx === 2 && (this.stopped === true && this.snoozed === true)' class="stop-button">
-							<button v-on:click="stopped = !stopped">
+							<button v-on:click="stopped = !stopped; ;">
 								I'm awake!
 							</button>
 						</div>
@@ -48,10 +48,13 @@
 				</div>
         <Calendar :event="event" />
         <Location :trip="trip" />
-
-
       </div>
 		</div>
+  </div>
+  </div>
+    </div>
+      </div>
+    </transition>
 
 
 		<transition name="fade">
@@ -98,13 +101,8 @@
 <script>
 
 import axios from 'axios';
-  const au = new Audio("@/assets/He-man.mp3");
 import Calendar from '@/components/Calendar';
 import Location from '@/components/Location';
-au.play();
-window.au = new Audio(
-  "https://www.dropbox.com/s/4txivnsjosx85k6/he-man.mp3?dl=1"
-);
 
 const thingos = {
   day: [
@@ -185,7 +183,9 @@ export default {
     return {
       thingos,
       event: {},
-      trip: {},
+      trip: {
+        duration: 0
+      },
       currentAction: "day",
       typeOfDay: "",
       startingTime: "",
@@ -201,7 +201,7 @@ export default {
       right_class: "right",
       show: true,
       audi: new Audio(
-        "https://www.dropbox.com/s/4txivnsjosx85k6/he-man.mp3?dl=1"
+        "https://www.dropbox.com/s/g4567sq3z4v5lmj/he-man%20-%20Copy.mp3?dl=1"
       ),
 	  stopped: false,
 	snoozed: false
@@ -228,7 +228,7 @@ export default {
     });
   },
   mounted() {
-    const sec = 100;
+    const sec = 500;
 	this.dte = this.hours * 60 + this.minutes;
 
     setInterval(() => {
@@ -247,8 +247,9 @@ export default {
           this.hours = secToHours(all_durations[action_idx]);
 		  this.minutes = secToMins(all_durations[action_idx]);
 		  if (this.action_idx === 2 && !this.snoozed) {
-			this.stopped = true;
-			this.snoozed = true;
+        this.stopped = true;
+        this.snoozed = true;
+        this.audi.play();
 		  }
         }
         //   if (this.action_idx === 1) {
@@ -288,6 +289,9 @@ export default {
       } else {
         this.settingsPage = true;
       }
+    },
+    pauseAudio(){
+      this.audi.pause();
     },
     setTypeOfDay(dayType) {
       this.typeOfDay = dayType;
