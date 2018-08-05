@@ -1,12 +1,12 @@
 <template>
-	<div class='landing' v-on:click="show = !show">
+	<div class='landing' >
 		<!-- <div v-if='!settingsPage'> -->
 		<transition name="fade">
 			<div v-if="show">
 
 		<div :class="left_class">
 			<div class="main">
-				<div class="svg-action">
+				<div class="svg-action" v-on:click="show = !show">
 					<!-- <img :src="'../assets/' + svg_selected + '.svg'" class="svg-action"/> -->
 					<div v-if='action_idx === 0'>
 						<img src="../assets/moon.svg" class="svg-action"/>
@@ -26,11 +26,22 @@
 				<!-- <div v-if='arrived'>
 					You've arrived!
 				</div> -->
-				<div v-if='!arrived'>
+				<div v-if='!arrived' class="countdown-wrapper">
 					<div class="countdown-timer">
-						{{h}}:{{m}} to <br />
-						{{ current_action }}
+						<div class="countdown-action">
+						<span v-html='current_action'></span> <br />
+							</div>
+						<div class="countdown-time">
+							<div v-if="h">{{h}} hours and</div><div v-if="m">{{m}} minutes</div>
+						</div>
+
+						<div v-if='action_idx === 2 && (this.stopped === true && this.snoozed === true)' class="stop-button">
+							<button v-on:click="stopped = !stopped">
+								I'm awake!
+							</button>
+						</div>
 					</div>
+
 				</div>
 			</div>
 		</div>
@@ -83,9 +94,9 @@
 <script>
 import axios from "axios";
 
-window.au = new Audio(
-  "https://www.dropbox.com/s/4txivnsjosx85k6/he-man.mp3?dl=1"
-);
+// window.au = new Audio(
+//   "https://www.dropbox.com/s/4txivnsjosx85k6/he-man.mp3?dl=1"
+// );
 
 const thingos = {
   day: [
@@ -141,12 +152,14 @@ const thingos = {
 };
 
 const all_actions = [
-  "sleep",
-  "wake up",
-  "train arrives",
-  "arriving at Central station"
+  "You should <span class='bolded'>sleep</span> in",
+  "You should start <span class='bolded'>waking up</span> in",
+  "Your <span class='bolded'>bus</span> leaves in",
+  "You'll <span class='bolded'>arrive</span> in",
+  "You've arrived!"
 ];
-const all_durations = [12, 15, 15, 15];
+
+const all_durations = [20, 20, 20, 20];
 let action_idx = 0;
 
 function secToMins(secs) {
@@ -170,52 +183,83 @@ export default {
       dte: 0,
       current_action: all_actions[0],
       arrived: false,
-      left_class: "left-on",
+      left_class: "left",
       right_class: "right",
-      show: true
+      show: true,
+      audi: new Audio(
+        "https://www.dropbox.com/s/4txivnsjosx85k6/he-man.mp3?dl=1"
+      ),
+	  stopped: false,
+	snoozed: false
     };
   },
   created() {
     axios.get("http://localhost:9000/calendar_events").then(res => {
-      console.log('res', res.data.nextEvent);
+      console.log("res", res.data.nextEvent);
       const event = res.data.nextEvent;
-      axios.post("http://localhost:9000/maps-props", {
-        origin: '100 Market St, Sydney NSW 2000',
-        destination: event.location,
-        mode: 'walking'
-      }).then(res => {
-        console.log('res2', res);
-      })
+      axios
+        .post("http://localhost:9000/maps-props", {
+          origin: "100 Market St, Sydney NSW 2000",
+          destination: event.location,
+          mode: "walking"
+        })
+        .then(res => {
+          console.log("res2", res);
+        });
     });
   },
   mounted() {
     const sec = 100;
-    this.dte = this.hours * 60 + this.minutes;
+	this.dte = this.hours * 60 + this.minutes;
+
     setInterval(() => {
-      this.dte -= 1; //new Date(this.dte.setMinutes(this.dte.getMinutes() - 1));
-      //   if (this.dte === 0 && this.action_idx === all_actions.length) {
-      // 	  this.arrived = true;
-      //   }
-      if (this.dte === 0) {
-        action_idx += 1;
-        this.action_idx += 1;
-        this.current_action = all_actions[action_idx];
-        this.dte = all_durations[action_idx];
-        this.hours = secToHours(all_durations[action_idx]);
-        this.minutes = secToMins(all_durations[action_idx]);
+		console.log(this.stopped);
+		 if (this.stopped === true) {
+      } else {
+        this.dte -= 1; //new Date(this.dte.setMinutes(this.dte.getMinutes() - 1));
+        //   if (this.dte === 0 && this.action_idx === all_actions.length) {
+        // 	  this.arrived = true;
+        //   }
+        if (this.dte === 0) {
+          action_idx += 1;
+          this.action_idx += 1;
+          this.current_action = all_actions[action_idx];
+          this.dte = all_durations[action_idx];
+          this.hours = secToHours(all_durations[action_idx]);
+		  this.minutes = secToMins(all_durations[action_idx]);
+		  if (this.action_idx === 2 && !this.snoozed) {
+			this.stopped = true;
+			this.snoozed = true;
+		  }
+        }
+        //   if (this.action_idx === 1) {
+        // 	  window.au.play();
+        //   }
+        this.hours = secToHours(this.dte);
+        this.minutes = secToMins(this.dte);
       }
-      this.hours = secToHours(this.dte); //this.dte.getMinutes();
-      this.minutes = secToMins(this.dte); //this.dte.getHours();
     }, sec);
   },
+  //   watch: {
+  // 	  current_action() {
+  // 		  let sleepidx = 2;
+  // 		  if (this.current_action === ) {
+  // 			  audi.play();
+  // 		  } else {
+  // 			  audi.pause();
+  // 		  }
+  // 	  }
+  //   },
   computed: {
     m: function() {
-      var s = String("0" + this.minutes).slice(-2);
-      return s > 0 ? s : "00";
+      //   var s = String("0" + this.minutes).slice(-2);
+      return this.minutes;
+      //   return s > 0 ? s : "00";
     },
     h: function() {
-      var s = String("0" + this.hours).slice(-2);
-      return s > 0 ? s : "00";
+      //   var s = String("0" + this.hours).slice(-2);
+      return this.hours;
+      //   return s > 0 ? s : "00";
     }
   },
   methods: {

@@ -1,8 +1,9 @@
 @import 'reset';
 
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
 html {
 	max-height: 100vh;
-	font-family: sans-serif;
+	font-family: 'Source Sans Pro',sans-serif;
 }
 
 .landing {
@@ -71,11 +72,38 @@ button {
 	align-items:center;
 	justify-content: center;
 	height:100vh;
-	background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+	background: linear-gradient(141deg, #db6c38 0%, #ff543d 51%, #ff4741 75%);
+}
+.countdown-wrapper{
+	text-align:center;
+	.countdown-timer {
+		font-size: 30pt;
+		color: white;
+		.countdown-action {
+			.bolded {
+				font-weight: 800;
+			}
+			margin-bottom: 16px;
+		}
+		.countdown-time {
+			font-size: 44pt;
+		}
+	}
 }
 
-.countdown-timer {
-	font-size: 50pt;
+.stop-button button {
+	border: 3px white solid;
+    color: white;
+    box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.15);
+    position: absolute;
+    border-radius: 10rem;
+    width: 291px;
+    font-size: 2rem;
+    line-height: 2rem;
+    padding: 1rem 2.5rem;
+    margin: 2rem 0;
+    text-transform: uppercase;
+    font-weight: 600;
 }
 
 .fade-enter-active, .fade-leave-active {
@@ -86,6 +114,10 @@ button {
   }
 
 .right {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 // .left {
 //     position: absolute;
