@@ -34,8 +34,6 @@
       </div>
 		</div>
 
-		</div>
-			</transition>
 
 		<transition name="fade">
 			<div v-if="!show">
