@@ -43,11 +43,12 @@
 					</div>
 
 				</div>
-			</div>
+        <Calendar :event="event" />
+
+
+      </div>
 		</div>
 
-		</div>
-			</transition>
 
 		<transition name="fade">
 			<div v-if="!show">
@@ -87,13 +88,17 @@
 		</div>
 			</transition>
 	</div>
+  </div>
 </template>
 
 <style lang='scss' src='@/assets/main.scss'></style>
 
 <script>
-import axios from "axios";
 
+import axios from 'axios';
+//   const au = new Audio("@/assets/He-man.mp3");
+  import Calendar from '@/components/Calendar';
+// au.play();
 // window.au = new Audio(
 //   "https://www.dropbox.com/s/4txivnsjosx85k6/he-man.mp3?dl=1"
 // );
@@ -169,9 +174,13 @@ function secToHours(secs) {
   return Math.floor(secs / 60);
 }
 export default {
+  components: {
+    Calendar
+  },
   data() {
     return {
       thingos,
+      event: {},
       currentAction: "day",
       typeOfDay: "",
       startingTime: "",
@@ -197,15 +206,15 @@ export default {
     axios.get("http://localhost:9000/calendar_events").then(res => {
       console.log("res", res.data.nextEvent);
       const event = res.data.nextEvent;
-      axios
-        .post("http://localhost:9000/maps-props", {
-          origin: "100 Market St, Sydney NSW 2000",
-          destination: event.location,
-          mode: "walking"
-        })
-        .then(res => {
-          console.log("res2", res);
-        });
+      this.event = event;
+
+      axios.post("http://localhost:9000/maps-props", {
+        origin: '100 Market St, Sydney NSW 2000',
+        destination: event.location,
+        mode: 'walking'
+      }).then(res => {
+        console.log('res2', res);
+      })
     });
   },
   mounted() {
