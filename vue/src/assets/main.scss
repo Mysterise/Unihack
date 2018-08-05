@@ -130,3 +130,31 @@ button {
     line-height: 1.2rem;
   }
 }
+
+.trip {
+  margin: 1rem;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  color: #444444;
+  padding: 1rem;
+  width: 25rem;
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.09);
+
+  .inner {
+    display: flex;
+
+    .origin, .destination {
+      flex: 1;
+      color: #999999;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+    .duration {
+      flex: 1;
+      font-size: 0.7rem;
+      text-align: center;
+    }
+  }
+}

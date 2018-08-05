@@ -1,4 +1,5 @@
 <template>
+  <div>
 	<div class='landing'>
     <div v-if='!settingsPage'>
 			<div class="main">
@@ -29,13 +30,11 @@
 					</div>
 				</div>
         <Calendar :event="event" />
-
+        <Location :trip="trip" />
 
       </div>
 		</div>
-
 		</div>
-			</transition>
 
 		<transition name="fade">
 			<div v-if="!show">
@@ -71,10 +70,8 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
-			</transition>
-	</div>
+    </transition>
   </div>
 </template>
 
@@ -84,7 +81,8 @@
 
 import axios from 'axios';
   const au = new Audio("@/assets/He-man.mp3");
-  import Calendar from '@/components/Calendar';
+import Calendar from '@/components/Calendar';
+import Location from '@/components/Location';
 au.play();
 window.au = new Audio(
   "https://www.dropbox.com/s/4txivnsjosx85k6/he-man.mp3?dl=1"
@@ -160,12 +158,14 @@ function secToHours(secs) {
 }
 export default {
   components: {
-    Calendar
+    Calendar,
+    Location
   },
   data() {
     return {
       thingos,
       event: {},
+      trip: {},
       currentAction: "day",
       typeOfDay: "",
       startingTime: "",
@@ -187,6 +187,10 @@ export default {
       console.log('res', res.data.nextEvent);
       const event = res.data.nextEvent;
       this.event = event;
+      this.trip = {
+        origin: '100 Market St, Sydney NSW 2000',
+        destination: event.location,
+      };
 
       axios.post("http://localhost:9000/maps-props", {
         origin: '100 Market St, Sydney NSW 2000',
@@ -194,6 +198,7 @@ export default {
         mode: 'walking'
       }).then(res => {
         console.log('res2', res);
+        this.trip['duration'] = res.data.seconds
       })
     });
   },
